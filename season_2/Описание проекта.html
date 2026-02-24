@@ -1,0 +1,3730 @@
+```html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DataPulse — Семестровый проект</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0f0f1a;
+            --bg-secondary: #1a1a2e;
+            --bg-card: #252542;
+            --bg-card-hover: #2d2d4a;
+            --accent-primary: #6366f1;
+            --accent-secondary: #8b5cf6;
+            --accent-tertiary: #ec4899;
+            --accent-success: #10b981;
+            --accent-warning: #f59e0b;
+            --accent-info: #3b82f6;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: #334155;
+            --gradient-primary: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            --gradient-secondary: linear-gradient(135deg, var(--accent-secondary), var(--accent-tertiary));
+            --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            padding: 40px 20px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 30%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 70%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+            animation: rotate 30s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--accent-primary);
+            margin-bottom: 24px;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 24px;
+            letter-spacing: -2px;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+
+        .hero-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: center;
+            margin-bottom: 48px;
+        }
+
+        .hero-feature {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            border: 1px solid var(--border-color);
+        }
+
+        .hero-feature-icon {
+            font-size: 18px;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        /* Navigation */
+        .nav {
+            position: sticky;
+            top: 0;
+            background: rgba(15, 15, 26, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 100;
+            padding: 16px 0;
+        }
+
+        .nav-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .nav-logo {
+            font-size: 20px;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            padding: 8px 16px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: var(--radius-sm);
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+            background: var(--bg-card);
+        }
+
+        /* Sections */
+        section {
+            padding: 100px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        .section-label {
+            display: inline-block;
+            padding: 6px 14px;
+            background: var(--gradient-primary);
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: -1px;
+        }
+
+        .section-description {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            background: var(--bg-card-hover);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card-icon {
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-md);
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .card-description {
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+
+        /* Grid Layouts */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        /* Concept Section */
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 32px;
+            margin-top: 48px;
+        }
+
+        .concept-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .concept-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+        }
+
+        .concept-number {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            font-size: 72px;
+            font-weight: 800;
+            color: var(--bg-secondary);
+            line-height: 1;
+        }
+
+        .concept-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        .concept-card p {
+            color: var(--text-secondary);
+            position: relative;
+        }
+
+        /* Architecture */
+        .architecture-diagram {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 48px;
+            margin: 48px 0;
+        }
+
+        .arch-row {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+
+        .arch-layer {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 24px;
+            min-width: 200px;
+            text-align: center;
+        }
+
+        .arch-layer.data { border-color: var(--accent-info); }
+        .arch-layer.ml { border-color: var(--accent-secondary); }
+        .arch-layer.backend { border-color: var(--accent-success); }
+        .arch-layer.frontend { border-color: var(--accent-tertiary); }
+
+        .arch-layer-title {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+            color: var(--text-muted);
+        }
+
+        .arch-layer-items {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .arch-item {
+            background: var(--bg-card);
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .arch-arrow {
+            font-size: 24px;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: center;
+            margin: 16px 0;
+        }
+
+        /* Tech Stack */
+        .stack-category {
+            margin-bottom: 48px;
+        }
+
+        .stack-category-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .stack-category-icon {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-sm);
+            font-size: 18px;
+        }
+
+        .stack-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-card);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+        }
+
+        .stack-table th,
+        .stack-table td {
+            padding: 16px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .stack-table th {
+            background: var(--bg-secondary);
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+        }
+
+        .stack-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .stack-table tr:hover td {
+            background: var(--bg-card-hover);
+        }
+
+        .tech-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            background: var(--bg-secondary);
+            border-radius: 50px;
+            font-size: 13px;
+            font-family: 'JetBrains Mono', monospace;
+            margin: 2px;
+            border: 1px solid var(--border-color);
+        }
+
+        .tech-tag.primary {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: white;
+        }
+
+        .tech-tag.advanced {
+            background: transparent;
+            border-color: var(--accent-secondary);
+            color: var(--accent-secondary);
+        }
+
+        /* Topics Section */
+        .topics-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 48px;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 50px;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--accent-primary);
+            border-color: var(--accent-primary);
+            color: white;
+        }
+
+        .topic-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .topic-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--accent-primary);
+        }
+
+        .topic-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .topic-category {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent-primary);
+            margin-bottom: 8px;
+        }
+
+        .topic-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .topic-subtitle {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .topic-body {
+            padding: 24px;
+        }
+
+        .topic-section {
+            margin-bottom: 20px;
+        }
+
+        .topic-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .topic-section-title {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .topic-list {
+            list-style: none;
+        }
+
+        .topic-list li {
+            padding: 6px 0;
+            font-size: 14px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .topic-list li::before {
+            content: '→';
+            color: var(--accent-primary);
+            flex-shrink: 0;
+        }
+
+        .topic-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .topic-tag {
+            padding: 4px 10px;
+            background: var(--bg-secondary);
+            border-radius: 50px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .topic-tag.api { color: var(--accent-success); border: 1px solid var(--accent-success); background: transparent; }
+        .topic-tag.parsing { color: var(--accent-warning); border: 1px solid var(--accent-warning); background: transparent; }
+        .topic-tag.nlp { color: var(--accent-tertiary); border: 1px solid var(--accent-tertiary); background: transparent; }
+
+        .difficulty-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .difficulty-badge.easy { background: rgba(16, 185, 129, 0.2); color: var(--accent-success); }
+        .difficulty-badge.medium { background: rgba(245, 158, 11, 0.2); color: var(--accent-warning); }
+        .difficulty-badge.hard { background: rgba(236, 72, 153, 0.2); color: var(--accent-tertiary); }
+
+        /* User Stories */
+        .stories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 24px;
+        }
+
+        .story-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            position: relative;
+        }
+
+        .story-card::before {
+            content: '"';
+            position: absolute;
+            top: 16px;
+            left: 24px;
+            font-size: 64px;
+            color: var(--accent-primary);
+            opacity: 0.3;
+            font-family: serif;
+            line-height: 1;
+        }
+
+        .story-role {
+            display: inline-block;
+            padding: 6px 14px;
+            background: var(--bg-secondary);
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--accent-primary);
+            margin-bottom: 16px;
+        }
+
+        .story-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .story-text strong {
+            color: var(--accent-primary);
+        }
+
+        .story-acceptance {
+            padding: 16px;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-md);
+            border-left: 3px solid var(--accent-success);
+        }
+
+        .story-acceptance-title {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--accent-success);
+            margin-bottom: 8px;
+        }
+
+        .story-acceptance ul {
+            list-style: none;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .story-acceptance li {
+            padding: 4px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .story-acceptance li::before {
+            content: '✓';
+            color: var(--accent-success);
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border-color);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 48px;
+        }
+
+        .timeline-item:last-child {
+            padding-bottom: 0;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: -33px;
+            top: 0;
+            width: 24px;
+            height: 24px;
+            background: var(--accent-primary);
+            border-radius: 50%;
+            border: 4px solid var(--bg-primary);
+        }
+
+        .timeline-week {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent-primary);
+            margin-bottom: 8px;
+        }
+
+        .timeline-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .timeline-content {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 24px;
+        }
+
+        .timeline-tasks {
+            list-style: none;
+            margin-bottom: 16px;
+        }
+
+        .timeline-tasks li {
+            padding: 6px 0;
+            color: var(--text-secondary);
+            font-size: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .timeline-tasks li::before {
+            content: '•';
+            color: var(--accent-primary);
+        }
+
+        .timeline-deliverable {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(16, 185, 129, 0.15);
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            color: var(--accent-success);
+        }
+
+        /* Criteria */
+        .criteria-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+        }
+
+        .criteria-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+
+        .criteria-header {
+            padding: 24px;
+            background: var(--gradient-primary);
+        }
+
+        .criteria-header.advanced {
+            background: var(--gradient-secondary);
+        }
+
+        .criteria-grade {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .criteria-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .criteria-list {
+            padding: 24px;
+            list-style: none;
+        }
+
+        .criteria-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 15px;
+        }
+
+        .criteria-list li:last-child {
+            border-bottom: none;
+        }
+
+        .criteria-check {
+            width: 20px;
+            height: 20px;
+            background: var(--accent-success);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        /* Code Block */
+        .code-block {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin: 24px 0;
+        }
+
+        .code-header {
+            padding: 12px 20px;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .code-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .code-dot.red { background: #ff5f56; }
+        .code-dot.yellow { background: #ffbd2e; }
+        .code-dot.green { background: #27ca40; }
+
+        .code-title {
+            margin-left: 12px;
+            font-size: 13px;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .code-content {
+            padding: 20px;
+            overflow-x: auto;
+        }
+
+        .code-content pre {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        /* Accordion */
+        .accordion {
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+
+        .accordion-header {
+            padding: 20px 24px;
+            background: var(--bg-card);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background 0.2s;
+        }
+
+        .accordion-header:hover {
+            background: var(--bg-card-hover);
+        }
+
+        .accordion-title {
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .accordion-icon {
+            transition: transform 0.3s;
+        }
+
+        .accordion.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .accordion.active .accordion-content {
+            max-height: 2000px;
+        }
+
+        .accordion-body {
+            padding: 24px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            padding: 48px 0;
+            text-align: center;
+        }
+
+        .footer-text {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            section {
+                padding: 60px 0;
+            }
+
+            .timeline {
+                padding-left: 30px;
+            }
+
+            .timeline::before {
+                left: 10px;
+            }
+
+            .timeline-dot {
+                left: -28px;
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 16px;
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: var(--radius-sm);
+            transition: all 0.2s;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-primary);
+            background: var(--bg-card);
+        }
+
+        .tab-btn.active {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Highlight box */
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+            border: 1px solid var(--accent-primary);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            margin: 32px 0;
+        }
+
+        .highlight-box h4 {
+            color: var(--accent-primary);
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        /* Topics container */
+        .topics-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 24px;
+        }
+
+        @media (max-width: 480px) {
+            .topics-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">📚 Семестровый проект 2026</div>
+            <h1>DataPulse</h1>
+            <p class="hero-subtitle">
+                Создай свой data-driven веб-сервис: от сбора данных до ML-прогнозов в Docker-контейнере
+            </p>
+            <div class="hero-features">
+                <div class="hero-feature">
+                    <span class="hero-feature-icon">🔄</span>
+                    <span>Автоматический сбор данных</span>
+                </div>
+                <div class="hero-feature">
+                    <span class="hero-feature-icon">🤖</span>
+                    <span>ML-модели и прогнозы</span>
+                </div>
+                <div class="hero-feature">
+                    <span class="hero-feature-icon">📊</span>
+                    <span>Интерактивный дашборд</span>
+                </div>
+                <div class="hero-feature">
+                    <span class="hero-feature-icon">🐳</span>
+                    <span>Docker-контейнеризация</span>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 5v14M19 12l-7 7-7-7"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="container nav-content">
+            <div class="nav-logo">🚀 DataPulse</div>
+            <div class="nav-links">
+                <a href="#concept" class="nav-link">Концепция</a>
+                <a href="#architecture" class="nav-link">Архитектура</a>
+                <a href="#stack" class="nav-link">Стек</a>
+                <a href="#topics" class="nav-link">Темы проектов</a>
+                <a href="#stories" class="nav-link">User Stories</a>
+                <a href="#timeline" class="nav-link">План</a>
+                <a href="#criteria" class="nav-link">Оценка</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Concept Section -->
+    <section id="concept">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">О проекте</div>
+                <h2 class="section-title">Что мы будем делать?</h2>
+                <p class="section-description">
+                    Полноценный веб-сервис с аналитикой, ML-моделями и автоматическим обновлением данных
+                </p>
+            </div>
+
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <div class="concept-number">01</div>
+                    <h3>📥 Собираем данные</h3>
+                    <p>Пишем скрипты для автоматического сбора данных из API и веб-страниц. Данные сохраняются в PostgreSQL и обновляются по расписанию.</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-number">02</div>
+                    <h3>🔬 Анализируем и моделируем</h3>
+                    <p>Проводим EDA, строим гипотезы, создаём признаки и обучаем ML-модели. От простой регрессии до NLP и временных рядов.</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-number">03</div>
+                    <h3>🌐 Создаём веб-сервис</h3>
+                    <p>FastAPI для REST API с эндпоинтами данных и предсказаний. Streamlit для интерактивного дашборда с графиками и фильтрами.</p>
+                </div>
+                <div class="concept-card">
+                    <div class="concept-number">04</div>
+                    <h3>🐳 Упаковываем в Docker</h3>
+                    <p>Весь проект разворачивается одной командой <code>docker compose up</code>. База, API, сборщик данных, дашборд — всё в контейнерах.</p>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h4>💡 Главная идея</h4>
+                <p>Каждый студент выбирает свой домен (вакансии, недвижимость, крипто, игры...), но использует <strong>единую архитектуру</strong>. Это позволяет иметь разнообразие тем при единых критериях оценки.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section id="architecture" style="background: var(--bg-secondary);">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">Архитектура</div>
+                <h2 class="section-title">Как это устроено</h2>
+                <p class="section-description">
+                    Микросервисная архитектура с разделением ответственности
+                </p>
+            </div>
+
+            <div class="architecture-diagram">
+                <div class="arch-row">
+                    <div class="arch-layer data">
+                        <div class="arch-layer-title">🔄 Data Layer</div>
+                        <div class="arch-layer-items">
+                            <div class="arch-item">External APIs</div>
+                            <div class="arch-item">Web Scraping</div>
+                            <div class="arch-item">Ingestor Service</div>
+                        </div>
+                    </div>
+                    <div class="arch-layer data">
+                        <div class="arch-layer-title">💾 Storage</div>
+                        <div class="arch-layer-items">
+                            <div class="arch-item">PostgreSQL</div>
+                            <div class="arch-item">Redis Cache</div>
+                            <div class="arch-item">Model Artifacts</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="arch-arrow">↓</div>
+
+                <div class="arch-row">
+                    <div class="arch-layer ml">
+                        <div class="arch-layer-title">🤖 ML Pipeline</div>
+                        <div class="arch-layer-items">
+                            <div class="arch-item">Feature Engineering</div>
+                            <div class="arch-item">Model Training</div>
+                            <div class="arch-item">MLflow Registry</div>
+                        </div>
+                    </div>
+                    <div class="arch-layer backend">
+                        <div class="arch-layer-title">⚡ Backend</div>
+                        <div class="arch-layer-items">
+                            <div class="arch-item">FastAPI</div>
+                            <div class="arch-item">/data endpoints</div>
+                            <div class="arch-item">/predict endpoint</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="arch-arrow">↓</div>
+
+                <div class="arch-row">
+                    <div class="arch-layer frontend">
+                        <div class="arch-layer-title">📊 Frontend</div>
+                        <div class="arch-layer-items">
+                            <div class="arch-item">Streamlit Dashboard</div>
+                            <div class="arch-item">Plotly Charts</div>
+                            <div class="arch-item">Interactive Filters</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <div class="code-dot red"></div>
+                    <div class="code-dot yellow"></div>
+                    <div class="code-dot green"></div>
+                    <span class="code-title">docker-compose.yml</span>
+                </div>
+                <div class="code-content">
+<pre>services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: datapulse
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+
+  ingestor:
+    build: ./services/ingestor
+    depends_on: [db]
+    environment:
+      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/datapulse
+
+  api:
+    build: ./services/api
+    ports: ["8000:8000"]
+    depends_on: [db]
+
+  dashboard:
+    build: ./services/dashboard
+    ports: ["8501:8501"]
+    depends_on: [api]
+    environment:
+      API_URL: http://api:8000
+
+volumes:
+  postgres_data:</pre>
+                </div>
+            </div>
+
+            <div class="code-block">
+                <div class="code-header">
+                    <div class="code-dot red"></div>
+                    <div class="code-dot yellow"></div>
+                    <div class="code-dot green"></div>
+                    <span class="code-title">Структура проекта</span>
+                </div>
+                <div class="code-content">
+<pre>datapulse/
+├── docker-compose.yml
+├── .env.example
+├── alembic/                    # Миграции БД
+├── .github/workflows/ci.yml    # CI/CD
+│
+├── services/
+│   ├── ingestor/               # Сбор данных
+│   │   ├── Dockerfile
+│   │   ├── src/
+│   │   │   ├── collectors/     # API клиенты, парсеры
+│   │   │   ├── scheduler.py    # APScheduler
+│   │   │   └── models.py       # SQLAlchemy
+│   │   └── requirements.txt
+│   │
+│   ├── api/                    # FastAPI
+│   │   ├── Dockerfile
+│   │   ├── src/
+│   │   │   ├── routers/        # Эндпоинты
+│   │   │   ├── schemas.py      # Pydantic
+│   │   │   └── ml_service.py   # Инференс
+│   │   └── requirements.txt
+│   │
+│   └── dashboard/              # Streamlit
+│       ├── Dockerfile
+│       ├── app.py
+│       └── pages/              # Многостраничное приложение
+│           ├── 1_📊_Overview.py
+│           ├── 2_🔮_Predictions.py
+│           └── 3_📈_Analytics.py
+│
+├── ml/
+│   ├── notebooks/              # Jupyter EDA
+│   ├── training/               # Скрипты обучения
+│   └── artifacts/              # Модели .joblib
+│
+└── tests/</pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack Section -->
+    <section id="stack">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">Технологии</div>
+                <h2 class="section-title">Технологический стек</h2>
+                <p class="section-description">
+                    Обязательные технологии и продвинутые альтернативы
+                </p>
+            </div>
+
+            <div class="stack-category">
+                <div class="stack-category-title">
+                    <div class="stack-category-icon">📥</div>
+                    Data Collection (ETL)
+                </div>
+                <table class="stack-table">
+                    <thead>
+                        <tr>
+                            <th>Задача</th>
+                            <th>Обязательно</th>
+                            <th>Альтернативы / Продвинутый уровень</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>HTTP-запросы</td>
+                            <td><span class="tech-tag primary">requests</span></td>
+                            <td>
+                                <span class="tech-tag advanced">httpx</span>
+                                <span class="tech-tag advanced">aiohttp</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Парсинг HTML</td>
+                            <td><span class="tech-tag primary">BeautifulSoup4</span></td>
+                            <td>
+                                <span class="tech-tag advanced">lxml</span>
+                                <span class="tech-tag advanced">Scrapy</span>
+                                <span class="tech-tag advanced">parsel</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Браузерная автоматизация</td>
+                            <td><span class="tech-tag">Selenium</span></td>
+                            <td>
+                                <span class="tech-tag advanced">Playwright</span>
+                                <span class="tech-tag advanced">Puppeteer</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Планировщик задач</td>
+                            <td><span class="tech-tag primary">APScheduler</span></td>
+                            <td>
+                                <span class="tech-tag advanced">Celery + Beat</span>
+                                <span class="tech-tag advanced">cron</span>
+                                <span class="tech-tag advanced">Airflow</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="stack-category">
+                <div class="stack-category-title">
+                    <div class="stack-category-icon">💾</div>
+                    Storage
+                </div>
+                <table class="stack-table">
+                    <thead>
+                        <tr>
+                            <th>Задача</th>
+                            <th>Обязательно</th>
+                            <th>Альтернативы / Продвинутый уровень</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Реляционная БД</td>
+                            <td><span class="tech-tag primary">PostgreSQL</span></td>
+                            <td>
+                                <span class="tech-tag">SQLite</span> (для разработки)
+                                <span class="tech-tag advanced">MySQL</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>ORM</td>
+                            <td><span class="tech-tag primary">SQLAlchemy 2.0</span></td>
+                            <td>
+                                <span class="tech-tag advanced">SQLModel</span>
+                                <span class="tech-tag advanced">Tortoise ORM</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Миграции</td>
+                            <td><span class="tech-tag">Alembic</span></td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>Кэширование</td>
+                            <td><span class="tech-tag">Redis</span></td>
+                            <td>
+                                <span class="tech-tag advanced">Memcached</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Файловое хранилище</td>
+                            <td>Локальная ФС</td>
+                            <td>
+                                <span class="tech-tag advanced">MinIO</span>
+                                <span class="tech-tag advanced">S3</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="stack-category">
+                <div class="stack-category-title">
+                    <div class="stack-category-icon">📊</div>
+                    Data Processing & EDA
+                </div>
+                <table class="stack-table">
+                    <thead>
+                        <tr>
+                            <th>Задача</th>
+                            <th>Обязательно</th>
+                            <th>Альтернативы / Продвинутый уровень</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Табличные данные</td>
+                            <td><span class="tech-tag primary">pandas</span></td>
+                            <td>
+                                <span class="tech-tag advanced">polars</span>
+                                <span class="tech-tag advanced">DuckDB</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Числовые вычисления</td>
+                            <td><span class="tech-tag primary">numpy</span></td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>Статистика</td>
+                            <td><span class="tech-tag primary">scipy</span></td>
+                            <td>
+                                <span class="tech-tag advanced">statsmodels</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Ноутбуки</td>
+                            <td><span class="tech-tag primary">Jupyter</span></td>
+                            <td>
+                                <span class="tech-tag advanced">JupyterLab</span>
+                                <span class="tech-tag advanced">VS Code Notebooks</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="stack-category">
+                <div class="stack-category-title">
+                    <div class="stack-category-icon">🤖</div>
+                    Machine Learning
+                </div>
+                <table class="stack-table">
+                    <thead>
+                        <tr>
+                            <th>Задача</th>
+                            <th>Обязательно</th>
+                            <th>Альтернативы / Продвинутый уровень</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Классические ML</td>
+                            <td><span class="tech-tag primary">scikit-learn</span></td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>Градиентный бустинг</td>
+                            <td>
+                                <span class="tech-tag primary">CatBoost</span>
+                            </td>
+                            <td>
+                                <span class="tech-tag advanced">LightGBM</span>
+                                <span class="tech-tag advanced">XGBoost</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>NLP</td>
+                            <td>
+                                <span class="tech-tag">NLTK</span>
+                                <span class="tech-tag">TextBlob</span>
+                            </td>
+                            <td>
+                                <span class="tech-tag advanced">transformers</span>
+                                <span class="tech-tag advanced">spaCy</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Временные ряды</td>
+                            <td><span class="tech-tag">statsmodels</span></td>
+                            <td>
+                                <span class="tech-tag advanced">Prophet</span>
+                                <span class="tech-tag advanced">sktime</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Интерпретация</td>
+                            <td>Feature importance</td>
+                            <td>
+                                <span class="tech-tag advanced">SHAP</span>
+                                <span class="tech-tag advanced">LIME</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Сериализация моделей</td>
+                            <td><span class="tech-tag primary">joblib</span></td>
+                            <td>
+                                <span class="tech-tag advanced">pickle</span>
+                                <span class="tech-tag advanced">ONNX</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Эксперименты</td>
+                            <td>Логи в файлах</td>
+                            <td>
+                                <span class="tech-tag advanced">MLflow</span>
+                                <span class="tech-tag advanced">Weights & Biases</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="stack-category">
+                <div class="stack-category-title">
+                    <div class="stack-category-icon">⚡</div>
+                    Backend API
+                </div>
+                <table class="stack-table">
+                    <thead>
+                        <tr>
+                            <th>Задача</th>
+                            <th>Обязательно</th>
+                            <th>Альтернативы / Продвинутый уровень</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Web Framework</td>
+                            <td><span class="tech-tag primary">FastAPI</span></td>
+                            <td>
+                                <span class="tech-tag advanced">Flask</span>
+                                <span class="tech-tag advanced">Litestar</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Валидация данных</td>
+                            <td><span class="tech-tag primary">Pydantic</span></td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>ASGI сервер</td>
+                            <td><span class="tech-tag primary">uvicorn</span></td>
+                            <td>
+                                <span class="tech-tag advanced">gunicorn + uvicorn</span>
+                                <span class="tech-tag advanced">hypercorn</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Документация API</td>
+                            <td>Swagger (встроен в FastAPI)</td>
+                            <td>
+                                <span class="tech-tag advanced">ReDoc</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="stack-category">
+                <div class="stack-category-title">
+                    <div class="stack-category-icon">📱</div>
+                    Frontend & Visualization
+                </div>
+                <table class="stack-table">
+                    <thead>
+                        <tr>
+                            <th>Задача</th>
+                            <th>Обязательно</th>
+                            <th>Альтернативы / Продвинутый уровень</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Dashboard Framework</td>
+                            <td><span class="tech-tag primary">Streamlit</span></td>
+                            <td>
+                                <span class="tech-tag advanced">Gradio</span>
+                                <span class="tech-tag advanced">Panel</span>
+                                <span class="tech-tag advanced">Dash</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Графики</td>
+                            <td><span class="tech-tag primary">Plotly</span></td>
+                            <td>
+                                <span class="tech-tag advanced">Altair</span>
+                                <span class="tech-tag advanced">Bokeh</span>
+                                <span class="tech-tag">matplotlib</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Карты</td>
+                            <td><span class="tech-tag">streamlit.map</span></td>
+                            <td>
+                                <span class="tech-tag advanced">Folium</span>
+                                <span class="tech-tag advanced">pydeck</span>
+                                <span class="tech-tag advanced">Kepler.gl</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="stack-category">
+                <div class="stack-category-title">
+                    <div class="stack-category-icon">🐳</div>
+                    DevOps & Infrastructure
+                </div>
+                <table class="stack-table">
+                    <thead>
+                        <tr>
+                            <th>Задача</th>
+                            <th>Обязательно</th>
+                            <th>Альтернативы / Продвинутый уровень</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Контейнеризация</td>
+                            <td>
+                                <span class="tech-tag primary">Docker</span>
+                                <span class="tech-tag primary">docker-compose</span>
+                            </td>
+                            <td>
+                                <span class="tech-tag advanced">Podman</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>CI/CD</td>
+                            <td><span class="tech-tag">GitHub Actions</span></td>
+                            <td>
+                                <span class="tech-tag advanced">GitLab CI</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Линтинг</td>
+                            <td><span class="tech-tag primary">ruff</span></td>
+                            <td>
+                                <span class="tech-tag advanced">flake8</span>
+                                <span class="tech-tag advanced">pylint</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Форматирование</td>
+                            <td><span class="tech-tag primary">ruff format</span></td>
+                            <td>
+                                <span class="tech-tag advanced">black</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Pre-commit хуки</td>
+                            <td><span class="tech-tag">pre-commit</span></td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>Тестирование</td>
+                            <td><span class="tech-tag primary">pytest</span></td>
+                            <td>
+                                <span class="tech-tag advanced">pytest-asyncio</span>
+                                <span class="tech-tag advanced">coverage</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Управление зависимостями</td>
+                            <td><span class="tech-tag primary">requirements.txt</span></td>
+                            <td>
+                                <span class="tech-tag advanced">Poetry</span>
+                                <span class="tech-tag advanced">uv</span>
+                                <span class="tech-tag advanced">pip-tools</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Topics Section -->
+    <section id="topics" style="background: var(--bg-secondary);">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">Выбор темы</div>
+                <h2 class="section-title">30 идей для проектов</h2>
+                <p class="section-description">
+                    Выберите домен, который вам интересен. Архитектура одинаковая — данные разные!
+                </p>
+            </div>
+
+            <div class="topics-filter">
+                <button class="filter-btn active" onclick="filterTopics('all')">Все темы</button>
+                <button class="filter-btn" onclick="filterTopics('jobs')">💼 Работа</button>
+                <button class="filter-btn" onclick="filterTopics('finance')">💰 Финансы</button>
+                <button class="filter-btn" onclick="filterTopics('realty')">🏠 Недвижимость</button>
+                <button class="filter-btn" onclick="filterTopics('ecommerce')">🛒 E-commerce</button>
+                <button class="filter-btn" onclick="filterTopics('social')">📱 Соцсети</button>
+                <button class="filter-btn" onclick="filterTopics('entertainment')">🎮 Развлечения</button>
+                <button class="filter-btn" onclick="filterTopics('city')">🌆 Город</button>
+                <button class="filter-btn" onclick="filterTopics('other')">📊 Другое</button>
+            </div>
+
+            <div class="topics-container">
+                
+                <!-- Topic 1: HH.ru -->
+                <div class="topic-card" data-category="jobs">
+                    <div class="topic-header">
+                        <div class="topic-category">💼 Рынок труда</div>
+                        <div class="topic-title">JobPulse: Аналитика вакансий</div>
+                        <div class="topic-subtitle">hh.ru, Habr Career, SuperJob</div>
+                    </div>
+                    <div class="topic-body">
+                        <div class="topic-section">
+                            <div class="topic-section-title">Источники данных</div>
+                            <ul class="topic-list">
+                                <li>HH.ru API (официальный, бесплатный)</li>
+                                <li>Habr Career (парсинг)</li>
+                                <li>Telegram-каналы с вакансиями</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">ML-задачи</div>
+                            <ul class="topic-list">
+                                <li>Предсказание зарплаты по навыкам и опыту</li>
+                                <li>Классификация уровня: Junior/Middle/Senior</li>
+                                <li>Кластеризация похожих вакансий</li>
+                                <li>NLP: извлечение навыков из описаний</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">Фишки для UI</div>
+                            <ul class="topic-list">
+                                <li>Калькулятор зарплаты</li>
+                                <li>Тренды навыков во времени</li>
+                                <li>Gap-анализ: чего не хватает в резюме</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-tags">
+                                <span class="topic-tag api">API</span>
+                                <span class="topic-tag nlp">NLP</span>
+                                <span class="difficulty-badge easy">Легко</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic 2: Crypto -->
+                <div class="topic-card" data-category="finance">
+                    <div class="topic-header">
+                        <div class="topic-category">💰 Финансы</div>
+                        <div class="topic-title">CryptoLens: Крипто-аналитика</div>
+                        <div class="topic-subtitle">CoinGecko, Binance, CryptoCompare</div>
+                    </div>
+                    <div class="topic-body">
+                        <div class="topic-section">
+                            <div class="topic-section-title">Источники данных</div>
+                            <ul class="topic-list">
+                                <li>CoinGecko API (бесплатный)</li>
+                                <li>Binance API (цены, объёмы)</li>
+                                <li>CryptoNews RSS (новости)</li>
+                                <li>Fear & Greed Index</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">ML-задачи</div>
+                            <ul class="topic-list">
+                                <li>Прогноз направления цены (up/down)</li>
+                                <li>Sentiment analysis новостей</li>
+                                <li>Детекция аномальных объёмов</li>
+                                <li>Корреляция с традиционными рынками</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">Фишки для UI</div>
+                            <ul class="topic-list">
+                                <li>Тепловая карта корреляций монет</li>
+                                <li>Алерты при аномальном sentiment</li>
+                                <li>Исторический бэктест стратегий</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-tags">
+                                <span class="topic-tag api">API</span>
+                                <span class="topic-tag nlp">NLP</span>
+                                <span class="difficulty-badge medium">Средне</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic 3: Stocks -->
+                <div class="topic-card" data-category="finance">
+                    <div class="topic-header">
+                        <div class="topic-category">💰 Финансы</div>
+                        <div class="topic-title">StockLens: Фондовый рынок</div>
+                        <div class="topic-subtitle">Yahoo Finance, Alpha Vantage, MOEX</div>
+                    </div>
+                    <div class="topic-body">
+                        <div class="topic-section">
+                            <div class="topic-section-title">Источники данных</div>
+                            <ul class="topic-list">
+                                <li>yfinance (Yahoo Finance wrapper)</li>
+                                <li>Alpha Vantage API</li>
+                                <li>MOEX API (Московская биржа)</li>
+                                <li>Финансовые новости (RSS)</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">ML-задачи</div>
+                            <ul class="topic-list">
+                                <li>Прогноз волатильности</li>
+                                <li>Классификация тренда (бычий/медвежий)</li>
+                                <li>Портфельная оптимизация</li>
+                                <li>Детекция паттернов на графиках</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">Фишки для UI</div>
+                            <ul class="topic-list">
+                                <li>Интерактивные candlestick графики</li>
+                                <li>Сравнение с индексами (S&P500, IMOEX)</li>
+                                <li>Калькулятор портфеля</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-tags">
+                                <span class="topic-tag api">API</span>
+                                <span class="difficulty-badge medium">Средне</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic 4: Real Estate -->
+                <div class="topic-card" data-category="realty">
+                    <div class="topic-header">
+                        <div class="topic-category">🏠 Недвижимость</div>
+                        <div class="topic-title">RealtyScope: Оценка квартир</div>
+                        <div class="topic-subtitle">ЦИАН, Домклик, Яндекс.Недвижимость</div>
+                    </div>
+                    <div class="topic-body">
+                        <div class="topic-section">
+                            <div class="topic-section-title">Источники данных</div>
+                            <ul class="topic-list">
+                                <li>ЦИАН (парсинг, осторожно с лимитами)</li>
+                                <li>Домклик (парсинг)</li>
+                                <li>OpenStreetMap (инфраструктура района)</li>
+                                <li>2GIS API (POI рядом)</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">ML-задачи</div>
+                            <ul class="topic-list">
+                                <li>Предсказание цены аренды/покупки</li>
+                                <li>Детекция "выгодных" предложений</li>
+                                <li>Кластеризация районов по характеристикам</li>
+                                <li>Прогноз срока экспозиции</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">Фишки для UI</div>
+                            <ul class="topic-list">
+                                <li>Тепловая карта цен на карте города</li>
+                                <li>Калькулятор: "Справедливая цена квартиры"</li>
+                                <li>Сравнение районов</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-tags">
+                                <span class="topic-tag parsing">Парсинг</span>
+                                <span class="difficulty-badge medium">Средне</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic 5: Auto -->
+                <div class="topic-card" data-category="ecommerce">
+                    <div class="topic-header">
+                        <div class="topic-category">🚗 Авто</div>
+                        <div class="topic-title">AutoGuru: Б/У автомобили</div>
+                        <div class="topic-subtitle">Auto.ru, Drom, Avito Авто</div>
+                    </div>
+                    <div class="topic-body">
+                        <div class="topic-section">
+                            <div class="topic-section-title">Источники данных</div>
+                            <ul class="topic-list">
+                                <li>Auto.ru (парсинг)</li>
+                                <li>Drom.ru (парсинг)</li>
+                                <li>Avito Авто (парсинг)</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">ML-задачи</div>
+                            <ul class="topic-list">
+                                <li>Предсказание рыночной цены</li>
+                                <li>Детектор "Выгодная сделка" (цена < прогноза на 15%)</li>
+                                <li>Прогноз времени продажи</li>
+                                <li>NLP: анализ описаний (битый/не битый)</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">Фишки для UI</div>
+                            <ul class="topic-list">
+                                <li>Оценщик авто: ввёл параметры → цена</li>
+                                <li>Лента "выгодных" предложений</li>
+                                <li>Динамика цен по маркам</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-tags">
+                                <span class="topic-tag parsing">Парсинг</span>
+                                <span class="topic-tag nlp">NLP</span>
+                                <span class="difficulty-badge medium">Средне</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic 6: Steam -->
+                <div class="topic-card" data-category="entertainment">
+                    <div class="topic-header">
+                        <div class="topic-category">🎮 Игры</div>
+                        <div class="topic-title">SteamPulse: Аналитика игр</div>
+                        <div class="topic-subtitle">Steam API, SteamCharts, SteamDB</div>
+                    </div>
+                    <div class="topic-body">
+                        <div class="topic-section">
+                            <div class="topic-section-title">Источники данных</div>
+                            <ul class="topic-list">
+                                <li>Steam Web API (официальный)</li>
+                                <li>SteamCharts (парсинг онлайна)</li>
+                                <li>Steam Reviews (API)</li>
+                                <li>SteamDB (парсинг)</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">ML-задачи</div>
+                            <ul class="topic-list">
+                                <li>Прогноз онлайна на 7 дней</li>
+                                <li>Sentiment отзывов (позитивный/негативный)</li>
+                                <li>Детекция аномалий (читерские волны)</li>
+                                <li>Рекомендация похожих игр</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">Фишки для UI</div>
+                            <ul class="topic-list">
+                                <li>Графики онлайна с прогнозом</li>
+                                <li>Облако слов из отзывов</li>
+                                <li>Сравнение игр одного жанра</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-tags">
+                                <span class="topic-tag api">API</span>
+                                <span class="topic-tag parsing">Парсинг</span>
+                                <span class="topic-tag nlp">NLP</span>
+                                <span class="difficulty-badge easy">Легко</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic 7: Weather/Air Quality -->
+                <div class="topic-card" data-category="city">
+                    <div class="topic-header">
+                        <div class="topic-category">🌆 Экология</div>
+                        <div class="topic-title">AirPulse: Качество воздуха</div>
+                        <div class="topic-subtitle">OpenAQ, Open-Meteo, OpenWeather</div>
+                    </div>
+                    <div class="topic-body">
+                        <div class="topic-section">
+                            <div class="topic-section-title">Источники данных</div>
+                            <ul class="topic-list">
+                                <li>OpenAQ API (PM2.5, PM10, NO2...)</li>
+                                <li>Open-Meteo API (погода)</li>
+                                <li>OpenWeather API</li>
+                                <li>Данные городских датчиков</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">ML-задачи</div>
+                            <ul class="topic-list">
+                                <li>Прогноз PM2.5 на завтра</li>
+                                <li>Классификация: "Неблагоприятный день"</li>
+                                <li>Корреляция погоды и загрязнения</li>
+                                <li>Детекция аномалий (пожары, выбросы)</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">Фишки для UI</div>
+                            <ul class="topic-list">
+                                <li>Карта загрязнения города</li>
+                                <li>Рекомендации: "Сегодня лучше не бегать"</li>
+                                <li>Сравнение городов</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-tags">
+                                <span class="topic-tag api">API</span>
+                                <span class="difficulty-badge easy">Легко</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic 8: News -->
+                <div class="topic-card" data-category="social">
+                    <div class="topic-header">
+                        <div class="topic-category">📰 Медиа</div>
+                        <div class="topic-title">NewsRadar: Агрегатор новостей</div>
+                        <div class="topic-subtitle">NewsAPI, RSS, Telegram</div>
+                    </div>
+                    <div class="topic-body">
+                        <div class="topic-section">
+                            <div class="topic-section-title">Источники данных</div>
+                            <ul class="topic-list">
+                                <li>NewsAPI (международные)</li>
+                                <li>RSS-ленты (РБК, Коммерсант, Хабр)</li>
+                                <li>Telegram каналы (через API)</li>
+                                <li>HackerNews API</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">ML-задачи</div>
+                            <ul class="topic-list">
+                                <li>Классификация по темам</li>
+                                <li>Sentiment analysis заголовков</li>
+                                <li>Детекция трендовых тем</li>
+                                <li>Кластеризация похожих новостей</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">Фишки для UI</div>
+                            <ul class="topic-list">
+                                <li>Лента новостей с фильтрами по тональности</li>
+                                <li>Облако трендовых слов</li>
+                                <li>Алерты на негативные новости по теме</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-tags">
+                                <span class="topic-tag api">API</span>
+                                <span class="topic-tag parsing">Парсинг</span>
+                                <span class="topic-tag nlp">NLP</span>
+                                <span class="difficulty-badge medium">Средне</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic 9: E-commerce -->
+                <div class="topic-card" data-category="ecommerce">
+                    <div class="topic-header">
+                        <div class="topic-category">🛒 E-commerce</div>
+                        <div class="topic-title">PriceTracker: Мониторинг цен</div>
+                        <div class="topic-subtitle">Wildberries, Ozon, Яндекс.Маркет</div>
+                    </div>
+                    <div class="topic-body">
+                        <div class="topic-section">
+                            <div class="topic-section-title">Источники данных</div>
+                            <ul class="topic-list">
+                                <li>Wildberries (парсинг, есть неофиц. API)</li>
+                                <li>Ozon (парсинг)</li>
+                                <li>Яндекс.Маркет (парсинг)</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">ML-задачи</div>
+                            <ul class="topic-list">
+                                <li>Прогноз цены товара</li>
+                                <li>Детекция "фейковых" скидок</li>
+                                <li>Оптимальное время покупки</li>
+                                <li>NLP: анализ отзывов</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">Фишки для UI</div>
+                            <ul class="topic-list">
+                                <li>История цен товара</li>
+                                <li>Алерты при снижении цены</li>
+                                <li>Сравнение цен на площадках</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-tags">
+                                <span class="topic-tag parsing">Парсинг</span>
+                                <span class="topic-tag nlp">NLP</span>
+                                <span class="difficulty-badge hard">Сложно</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic 10: Telegram -->
+                <div class="topic-card" data-category="social">
+                    <div class="topic-header">
+                        <div class="topic-category">📱 Соцсети</div>
+                        <div class="topic-title">TeleScope: Аналитика Telegram</div>
+                        <div class="topic-subtitle">Telegram API, TGStat</div>
+                    </div>
+                    <div class="topic-body">
+                        <div class="topic-section">
+                            <div class="topic-section-title">Источники данных</div>
+                            <ul class="topic-list">
+                                <li>Telethon / Pyrogram (Telegram API)</li>
+                                <li>TGStat API (статистика каналов)</li>
+                                <li>Публичные каналы по теме</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">ML-задачи</div>
+                            <ul class="topic-list">
+                                <li>Прогноз охвата поста</li>
+                                <li>Тематическая классификация каналов</li>
+                                <li>Детекция ботов/накруток</li>
+                                <li>Sentiment трендовых тем</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">Фишки для UI</div>
+                            <ul class="topic-list">
+                                <li>Топ постов за период</li>
+                                <li>Рост/падение каналов</li>
+                                <li>Время оптимального постинга</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-tags">
+                                <span class="topic-tag api">API</span>
+                                <span class="topic-tag nlp">NLP</span>
+                                <span class="difficulty-badge medium">Средне</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic 11: GitHub -->
+                <div class="topic-card" data-category="other">
+                    <div class="topic-header">
+                        <div class="topic-category">👨‍💻 IT</div>
+                        <div class="topic-title">DevTrends: GitHub аналитика</div>
+                        <div class="topic-subtitle">GitHub API, GitStar Ranking</div>
+                    </div>
+                    <div class="topic-body">
+                        <div class="topic-section">
+                            <div class="topic-section-title">Источники данных</div>
+                            <ul class="topic-list">
+                                <li>GitHub REST API (официальный)</li>
+                                <li>GitHub GraphQL API</li>
+                                <li>GH Archive (исторические данные)</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">ML-задачи</div>
+                            <ul class="topic-list">
+                                <li>Прогноз "звёзд" репозитория</li>
+                                <li>Тренды языков программирования</li>
+                                <li>Детекция "умирающих" проектов</li>
+                                <li>Кластеризация репозиториев</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">Фишки для UI</div>
+                            <ul class="topic-list">
+                                <li>Рейтинг трендовых репозиториев</li>
+                                <li>Графики популярности языков</li>
+                                <li>Анализ активности разработчика</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-tags">
+                                <span class="topic-tag api">API</span>
+                                <span class="difficulty-badge easy">Легко</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- Topic 12: Transport -->
+                <div class="topic-card" data-category="city">
+                    <div class="topic-header">
+                        <div class="topic-category">🚇 Транспорт</div>
+                        <div class="topic-title">TransitPulse: Городской транспорт</div>
+                        <div class="topic-subtitle">Яндекс.Транспорт, 2GIS, OpenData</div>
+                    </div>
+                    <div class="topic-body">
+                        <div class="topic-section">
+                            <div class="topic-section-title">Источники данных</div>
+                            <ul class="topic-list">
+                                <li>Открытые данные метрополитена</li>
+                                <li>2GIS API (маршруты, остановки)</li>
+                                <li>Городские порталы OpenData</li>
+                                <li>GTFS-фиды общественного транспорта</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">ML-задачи</div>
+                            <ul class="topic-list">
+                                <li>Прогноз загруженности станций метро</li>
+                                <li>Оптимальное время выезда</li>
+                                <li>Кластеризация маршрутов по загруженности</li>
+                                <li>Детекция аномалий (сбои, задержки)</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">Фишки для UI</div>
+                            <ul class="topic-list">
+                                <li>Карта загруженности в реальном времени</li>
+                                <li>Рекомендация оптимального маршрута</li>
+                                <li>История задержек по линиям</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-tags">
+                                <span class="topic-tag api">API</span>
+                                <span class="difficulty-badge medium">Средне</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic 13: Food Delivery -->
+                <div class="topic-card" data-category="ecommerce">
+                    <div class="topic-header">
+                        <div class="topic-category">🍕 Еда</div>
+                        <div class="topic-title">FoodLens: Рестораны и доставка</div>
+                        <div class="topic-subtitle">Яндекс.Еда, Delivery Club, 2GIS</div>
+                    </div>
+                    <div class="topic-body">
+                        <div class="topic-section">
+                            <div class="topic-section-title">Источники данных</div>
+                            <ul class="topic-list">
+                                <li>2GIS API (рестораны, рейтинги)</li>
+                                <li>Яндекс.Еда (парсинг)</li>
+                                <li>TripAdvisor (парсинг отзывов)</li>
+                                <li>Google Places API</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">ML-задачи</div>
+                            <ul class="topic-list">
+                                <li>Предсказание рейтинга заведения</li>
+                                <li>NLP: анализ отзывов (что хвалят/ругают)</li>
+                                <li>Рекомендательная система</li>
+                                <li>Прогноз времени доставки</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">Фишки для UI</div>
+                            <ul class="topic-list">
+                                <li>Карта заведений с фильтрами</li>
+                                <li>Топ по категориям (пицца, суши...)</li>
+                                <li>Анализ: "За что хвалят этот ресторан"</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-tags">
+                                <span class="topic-tag api">API</span>
+                                <span class="topic-tag parsing">Парсинг</span>
+                                <span class="topic-tag nlp">NLP</span>
+                                <span class="difficulty-badge medium">Средне</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic 14: Movies -->
+                <div class="topic-card" data-category="entertainment">
+                    <div class="topic-header">
+                        <div class="topic-category">🎬 Кино</div>
+                        <div class="topic-title">MoviePulse: Кино-аналитика</div>
+                        <div class="topic-subtitle">TMDB, IMDB, Кинопоиск</div>
+                    </div>
+                    <div class="topic-body">
+                        <div class="topic-section">
+                            <div class="topic-section-title">Источники данных</div>
+                            <ul class="topic-list">
+                                <li>TMDB API (бесплатный, богатый)</li>
+                                <li>OMDB API (IMDB данные)</li>
+                                <li>Кинопоиск (парсинг)</li>
+                                <li>Box Office Mojo (сборы)</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">ML-задачи</div>
+                            <ul class="topic-list">
+                                <li>Прогноз рейтинга по описанию и актёрам</li>
+                                <li>Прогноз кассовых сборов</li>
+                                <li>Рекомендательная система</li>
+                                <li>Кластеризация фильмов по "настроению"</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">Фишки для UI</div>
+                            <ul class="topic-list">
+                                <li>"Что посмотреть" — персональные рекомендации</li>
+                                <li>Анализ карьеры актёра/режиссёра</li>
+                                <li>Тренды жанров по годам</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-tags">
+                                <span class="topic-tag api">API</span>
+                                <span class="topic-tag nlp">NLP</span>
+                                <span class="difficulty-badge easy">Легко</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic 15: Music -->
+                <div class="topic-card" data-category="entertainment">
+                    <div class="topic-header">
+                        <div class="topic-category">🎵 Музыка</div>
+                        <div class="topic-title">MusicScope: Музыкальные тренды</div>
+                        <div class="topic-subtitle">Spotify API, Last.fm, MusicBrainz</div>
+                    </div>
+                    <div class="topic-body">
+                        <div class="topic-section">
+                            <div class="topic-section-title">Источники данных</div>
+                            <ul class="topic-list">
+                                <li>Spotify Web API (официальный)</li>
+                                <li>Last.fm API (история прослушиваний)</li>
+                                <li>MusicBrainz (метаданные)</li>
+                                <li>Genius API (тексты песен)</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">ML-задачи</div>
+                            <ul class="topic-list">
+                                <li>Прогноз популярности трека</li>
+                                <li>Классификация жанра по audio features</li>
+                                <li>Рекомендательная система</li>
+                                <li>Кластеризация по "настроению" (danceable, energy)</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">Фишки для UI</div>
+                            <ul class="topic-list">
+                                <li>Визуализация audio features</li>
+                                <li>Тренды жанров/артистов</li>
+                                <li>"Похожие артисты" граф</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-tags">
+                                <span class="topic-tag api">API</span>
+                                <span class="difficulty-badge easy">Легко</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic 16: Sports -->
+                <div class="topic-card" data-category="entertainment">
+                    <div class="topic-header">
+                        <div class="topic-category">⚽ Спорт</div>
+                        <div class="topic-title">SportStats: Спортивная аналитика</div>
+                        <div class="topic-subtitle">Football-Data, NBA API, ESPN</div>
+                    </div>
+                    <div class="topic-body">
+                        <div class="topic-section">
+                            <div class="topic-section-title">Источники данных</div>
+                            <ul class="topic-list">
+                                <li>Football-Data.org API (футбол)</li>
+                                <li>NBA API (баскетбол)</li>
+                                <li>ESPN API</li>
+                                <li>Transfermarkt (парсинг)</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">ML-задачи</div>
+                            <ul class="topic-list">
+                                <li>Прогноз результата матча</li>
+                                <li>Оценка трансферной стоимости игрока</li>
+                                <li>Кластеризация стилей игры команд</li>
+                                <li>Детекция недооценённых игроков</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">Фишки для UI</div>
+                            <ul class="topic-list">
+                                <li>Сравнение команд/игроков</li>
+                                <li>Турнирные таблицы с прогнозами</li>
+                                <li>Исторические head-to-head</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-tags">
+                                <span class="topic-tag api">API</span>
+                                <span class="difficulty-badge medium">Средне</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic 17: Flights -->
+                <div class="topic-card" data-category="other">
+                    <div class="topic-header">
+                        <div class="topic-category">✈️ Путешествия</div>
+                        <div class="topic-title">FlightRadar: Авиабилеты</div>
+                        <div class="topic-subtitle">Aviasales API, Skyscanner, Kiwi</div>
+                    </div>
+                    <div class="topic-body">
+                        <div class="topic-section">
+                            <div class="topic-section-title">Источники данных</div>
+                            <ul class="topic-list">
+                                <li>Aviasales API (партнёрский)</li>
+                                <li>Kiwi.com API</li>
+                                <li>OpenSky Network (трекинг рейсов)</li>
+                                <li>FlightAware</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">ML-задачи</div>
+                            <ul class="topic-list">
+                                <li>Прогноз цены билета</li>
+                                <li>Оптимальное время покупки</li>
+                                <li>Детекция аномальных цен (распродажи)</li>
+                                <li>Прогноз задержек рейсов</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">Фишки для UI</div>
+                            <ul class="topic-list">
+                                <li>График цен по датам</li>
+                                <li>"Купить сейчас или подождать?"</li>
+                                <li>Карта направлений с ценами</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-tags">
+                                <span class="topic-tag api">API</span>
+                                <span class="difficulty-badge medium">Средне</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic 18: Hotels -->
+                <div class="topic-card" data-category="other">
+                    <div class="topic-header">
+                        <div class="topic-category">🏨 Отели</div>
+                        <div class="topic-title">HotelScope: Аналитика отелей</div>
+                        <div class="topic-subtitle">Booking, Ostrovok, TripAdvisor</div>
+                    </div>
+                    <div class="topic-body">
+                        <div class="topic-section">
+                            <div class="topic-section-title">Источники данных</div>
+                            <ul class="topic-list">
+                                <li>Ostrovok API (партнёрский)</li>
+                                <li>TripAdvisor (парсинг отзывов)</li>
+                                <li>Booking.com (парсинг, осторожно)</li>
+                                <li>Google Hotels</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">ML-задачи</div>
+                            <ul class="topic-list">
+                                <li>Предсказание цены за ночь</li>
+                                <li>NLP: что важно в отзывах</li>
+                                <li>Рекомендация отелей по предпочтениям</li>
+                                <li>Детекция фейковых отзывов</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">Фишки для UI</div>
+                            <ul class="topic-list">
+                                <li>Карта отелей с фильтрами</li>
+                                <li>Сравнение "цена/качество"</li>
+                                <li>Суммаризация отзывов</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-tags">
+                                <span class="topic-tag parsing">Парсинг</span>
+                                <span class="topic-tag nlp">NLP</span>
+                                <span class="difficulty-badge hard">Сложно</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic 19: Education -->
+                <div class="topic-card" data-category="other">
+                    <div class="topic-header">
+                        <div class="topic-category">📚 Образование</div>
+                        <div class="topic-title">EduPulse: Онлайн-курсы</div>
+                        <div class="topic-subtitle">Coursera, Stepik, Udemy</div>
+                    </div>
+                    <div class="topic-body">
+                        <div class="topic-section">
+                            <div class="topic-section-title">Источники данных</div>
+                            <ul class="topic-list">
+                                <li>Coursera Catalog API</li>
+                                <li>Stepik API (официальный)</li>
+                                <li>Udemy (парсинг)</li>
+                                <li>Class Central (агрегатор)</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">ML-задачи</div>
+                            <ul class="topic-list">
+                                <li>Прогноз рейтинга курса</li>
+                                <li>Рекомендация курсов по навыкам</li>
+                                <li>Анализ отзывов: сильные/слабые стороны</li>
+                                <li>Тренды востребованных навыков</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">Фишки для UI</div>
+                            <ul class="topic-list">
+                                <li>Карта обучения (learning path)</li>
+                                <li>Сравнение курсов по теме</li>
+                                <li>ROI курса: время vs карьерный рост</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-tags">
+                                <span class="topic-tag api">API</span>
+                                <span class="topic-tag nlp">NLP</span>
+                                <span class="difficulty-badge easy">Легко</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic 20: Books -->
+                <div class="topic-card" data-category="entertainment">
+                    <div class="topic-header">
+                        <div class="topic-category">📖 Книги</div>
+                        <div class="topic-title">BookLens: Книжная аналитика</div>
+                        <div class="topic-subtitle">Google Books, Goodreads, LiveLib</div>
+                    </div>
+                    <div class="topic-body">
+                        <div class="topic-section">
+                            <div class="topic-section-title">Источники данных</div>
+                            <ul class="topic-list">
+                                <li>Google Books API</li>
+                                <li>Open Library API</li>
+                                <li>LiveLib (парсинг)</li>
+                                <li>Goodreads (парсинг)</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">ML-задачи</div>
+                            <ul class="topic-list">
+                                <li>Рекомендательная система</li>
+                                <li>Прогноз рейтинга по описанию</li>
+                                <li>Классификация жанра по тексту</li>
+                                <li>Кластеризация "похожих" книг</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">Фишки для UI</div>
+                            <ul class="topic-list">
+                                <li>"Что почитать" — рекомендации</li>
+                                <li>Визуализация жанров автора</li>
+                                <li>Тренды популярных тем</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-tags">
+                                <span class="topic-tag api">API</span>
+                                <span class="topic-tag parsing">Парсинг</span>
+                                <span class="topic-tag nlp">NLP</span>
+                                <span class="difficulty-badge easy">Легко</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic 21: Health -->
+                <div class="topic-card" data-category="other">
+                    <div class="topic-header">
+                        <div class="topic-category">🏥 Здоровье</div>
+                        <div class="topic-title">HealthMap: Медицинская аналитика</div>
+                        <div class="topic-subtitle">WHO, CDC, OpenData здравоохранения</div>
+                    </div>
+                    <div class="topic-body">
+                        <div class="topic-section">
+                            <div class="topic-section-title">Источники данных</div>
+                            <ul class="topic-list">
+                                <li>WHO Global Health Observatory API</li>
+                                <li>Росстат (здравоохранение)</li>
+                                <li>CDC Data (США)</li>
+                                <li>Our World in Data</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">ML-задачи</div>
+                            <ul class="topic-list">
+                                <li>Прогноз заболеваемости (сезонность)</li>
+                                <li>Кластеризация регионов по здоровью</li>
+                                <li>Корреляция факторов (экология, экономика)</li>
+                                <li>Детекция эпидемических вспышек</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">Фишки для UI</div>
+                            <ul class="topic-list">
+                                <li>Карта заболеваемости</li>
+                                <li>Сравнение регионов/стран</li>
+                                <li>Временные тренды</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-tags">
+                                <span class="topic-tag api">API</span>
+                                <span class="difficulty-badge medium">Средне</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic 22: Energy -->
+                <div class="topic-card" data-category="city">
+                    <div class="topic-header">
+                        <div class="topic-category">⚡ Энергетика</div>
+                        <div class="topic-title">EnergyWatch: Энергопотребление</div>
+                        <div class="topic-subtitle">ENTSO-E, EIA, OpenData</div>
+                    </div>
+                    <div class="topic-body">
+                        <div class="topic-section">
+                            <div class="topic-section-title">Источники данных</div>
+                            <ul class="topic-list">
+                                <li>ENTSO-E Transparency (Европа)</li>
+                                <li>EIA API (США)</li>
+                                <li>Open Power System Data</li>
+                                <li>Региональные сетевые компании</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">ML-задачи</div>
+                            <ul class="topic-list">
+                                <li>Прогноз потребления электроэнергии</li>
+                                <li>Прогноз цены на электричество</li>
+                                <li>Оптимизация нагрузки</li>
+                                <li>Детекция аномалий (аварии)</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">Фишки для UI</div>
+                            <ul class="topic-list">
+                                <li>Real-time график потребления</li>
+                                <li>Прогноз на неделю</li>
+                                <li>Карта генерации по источникам</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-tags">
+                                <span class="topic-tag api">API</span>
+                                <span class="difficulty-badge hard">Сложно</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic 23: Freelance -->
+                <div class="topic-card" data-category="jobs">
+                    <div class="topic-header">
+                        <div class="topic-category">💼 Фриланс</div>
+                        <div class="topic-title">FreelanceHub: Рынок фриланса</div>
+                        <div class="topic-subtitle">Kwork, FL.ru, Upwork</div>
+                    </div>
+                    <div class="topic-body">
+                        <div class="topic-section">
+                            <div class="topic-section-title">Источники данных</div>
+                            <ul class="topic-list">
+                                <li>Kwork API / парсинг</li>
+                                <li>FL.ru (парсинг)</li>
+                                <li>Хабр Фриланс (парсинг)</li>
+                                <li>Upwork (публичные данные)</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">ML-задачи</div>
+                            <ul class="topic-list">
+                                <li>Предсказание цены заказа</li>
+                                <li>Оценка конкурентности ниши</li>
+                                <li>Рекомендация ставки для фрилансера</li>
+                                <li>NLP: категоризация заказов</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">Фишки для UI</div>
+                            <ul class="topic-list">
+                                <li>Калькулятор цены услуги</li>
+                                <li>Тренды популярных навыков</li>
+                                <li>Анализ конкурентов</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-tags">
+                                <span class="topic-tag parsing">Парсинг</span>
+                                <span class="topic-tag nlp">NLP</span>
+                                <span class="difficulty-badge medium">Средне</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic 24: Startups -->
+                <div class="topic-card" data-category="finance">
+                    <div class="topic-header">
+                        <div class="topic-category">🚀 Стартапы</div>
+                        <div class="topic-title">StartupRadar: Венчурный рынок</div>
+                        <div class="topic-subtitle">Crunchbase, ProductHunt, AngelList</div>
+                    </div>
+                    <div class="topic-body">
+                        <div class="topic-section">
+                            <div class="topic-section-title">Источники данных</div>
+                            <ul class="topic-list">
+                                <li>Crunchbase API (платный, есть free tier)</li>
+                                <li>ProductHunt API</li>
+                                <li>Y Combinator (парсинг)</li>
+                                <li>TechCrunch RSS</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">ML-задачи</div>
+                            <ul class="topic-list">
+                                <li>Прогноз успеха стартапа</li>
+                                <li>Классификация по индустриям</li>
+                                <li>Тренды инвестиций</li>
+                                <li>NLP: анализ описаний успешных стартапов</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">Фишки для UI</div>
+                            <ul class="topic-list">
+                                <li>Карта стартап-экосистемы</li>
+                                <li>Топ недели на ProductHunt</li>
+                                <li>Анализ раундов инвестиций</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-tags">
+                                <span class="topic-tag api">API</span>
+                                <span class="topic-tag nlp">NLP</span>
+                                <span class="difficulty-badge medium">Средне</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic 25: Weather -->
+                <div class="topic-card" data-category="city">
+                    <div class="topic-header">
+                        <div class="topic-category">🌤️ Погода</div>
+                        <div class="topic-title">WeatherML: Прогноз погоды</div>
+                        <div class="topic-subtitle">Open-Meteo, OpenWeather, Weatherbit</div>
+                    </div>
+                    <div class="topic-body">
+                        <div class="topic-section">
+                            <div class="topic-section-title">Источники данных</div>
+                            <ul class="topic-list">
+                                <li>Open-Meteo (бесплатный, без ключа)</li>
+                                <li>OpenWeatherMap API</li>
+                                <li>Visual Crossing Weather</li>
+                                <li>NOAA Climate Data</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">ML-задачи</div>
+                            <ul class="topic-list">
+                                <li>Свой прогноз температуры</li>
+                                <li>Классификация типа погоды</li>
+                                <li>Прогноз осадков</li>
+                                <li>Сравнение с официальными прогнозами</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">Фишки для UI</div>
+                            <ul class="topic-list">
+                                <li>Интерактивная карта погоды</li>
+                                <li>Точность прогноза vs Яндекс/Gismeteo</li>
+                                <li>Исторические аномалии</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-tags">
+                                <span class="topic-tag api">API</span>
+                                <span class="difficulty-badge easy">Легко</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic 26: Podcasts -->
+                <div class="topic-card" data-category="entertainment">
+                    <div class="topic-header">
+                        <div class="topic-category">🎙️ Подкасты</div>
+                        <div class="topic-title">PodScope: Подкаст-аналитика</div>
+                        <div class="topic-subtitle">Spotify, Apple Podcasts, ListenNotes</div>
+                    </div>
+                    <div class="topic-body">
+                        <div class="topic-section">
+                            <div class="topic-section-title">Источники данных</div>
+                            <ul class="topic-list">
+                                <li>ListenNotes API</li>
+                                <li>Spotify Podcasts</li>
+                                <li>Apple Podcasts (парсинг RSS)</li>
+                                <li>Podchaser API</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">ML-задачи</div>
+                            <ul class="topic-list">
+                                <li>Рекомендация подкастов</li>
+                                <li>Классификация по жанрам</li>
+                                <li>Прогноз популярности эпизода</li>
+                                <li>NLP: извлечение ключевых тем</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">Фишки для UI</div>
+                            <ul class="topic-list">
+                                <li>Персональные рекомендации</li>
+                                <li>Тренды тем в подкастах</li>
+                                <li>Статистика по подкасту</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-tags">
+                                <span class="topic-tag api">API</span>
+                                <span class="topic-tag nlp">NLP</span>
+                                <span class="difficulty-badge easy">Легко</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic 27: Events -->
+                <div class="topic-card" data-category="entertainment">
+                    <div class="topic-header">
+                        <div class="topic-category">🎫 Мероприятия</div>
+                        <div class="topic-title">EventRadar: Афиша событий</div>
+                        <div class="topic-subtitle">Timepad, KudaGo, Afisha</div>
+                    </div>
+                    <div class="topic-body">
+                        <div class="topic-section">
+                            <div class="topic-section-title">Источники данных</div>
+                            <ul class="topic-list">
+                                <li>KudaGo API (официальный, бесплатный)</li>
+                                <li>Timepad (парсинг / API)</li>
+                                <li>Афиша (парсинг)</li>
+                                <li>Eventbrite API</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">ML-задачи</div>
+                            <ul class="topic-list">
+                                <li>Рекомендация мероприятий</li>
+                                <li>Прогноз посещаемости</li>
+                                <li>Оптимальная цена билета</li>
+                                <li>Кластеризация по интересам</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">Фишки для UI</div>
+                            <ul class="topic-list">
+                                <li>Афиша на неделю с фильтрами</li>
+                                <li>Карта событий города</li>
+                                <li>Персональный дайджест</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-tags">
+                                <span class="topic-tag api">API</span>
+                                <span class="difficulty-badge easy">Легко</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic 28: StackOverflow -->
+                <div class="topic-card" data-category="other">
+                    <div class="topic-header">
+                        <div class="topic-category">💻 Разработка</div>
+                        <div class="topic-title">DevQ&A: StackOverflow аналитика</div>
+                        <div class="topic-subtitle">StackExchange API, GitHub</div>
+                    </div>
+                    <div class="topic-body">
+                        <div class="topic-section">
+                            <div class="topic-section-title">Источники данных</div>
+                            <ul class="topic-list">
+                                <li>StackExchange API (официальный)</li>
+                                <li>Stack Overflow Data Dump</li>
+                                <li>GitHub Issues (дополнительно)</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">ML-задачи</div>
+                            <ul class="topic-list">
+                                <li>Прогноз: получит ли вопрос ответ</li>
+                                <li>Автотегирование вопросов</li>
+                                <li>Детекция дубликатов</li>
+                                <li>Тренды технологий</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">Фишки для UI</div>
+                            <ul class="topic-list">
+                                <li>Трендовые теги/технологии</li>
+                                <li>Анализ "боли разработчиков"</li>
+                                <li>Советы по формулировке вопроса</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-tags">
+                                <span class="topic-tag api">API</span>
+                                <span class="topic-tag nlp">NLP</span>
+                                <span class="difficulty-badge medium">Средне</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic 29: Scientific Papers -->
+                <div class="topic-card" data-category="other">
+                    <div class="topic-header">
+                        <div class="topic-category">🔬 Наука</div>
+                        <div class="topic-title">SciPulse: Научные публикации</div>
+                        <div class="topic-subtitle">arXiv, Semantic Scholar, PubMed</div>
+                    </div>
+                    <div class="topic-body">
+                        <div class="topic-section">
+                            <div class="topic-section-title">Источники данных</div>
+                            <ul class="topic-list">
+                                <li>arXiv API (бесплатный)</li>
+                                <li>Semantic Scholar API</li>
+                                <li>PubMed API</li>
+                                <li>CrossRef API</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">ML-задачи</div>
+                            <ul class="topic-list">
+                                <li>Прогноз цитируемости статьи</li>
+                                <li>Классификация по областям</li>
+                                <li>Тренды исследований</li>
+                                <li>Рекомендация релевантных статей</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">Фишки для UI</div>
+                            <ul class="topic-list">
+                                <li>Трендовые темы в ML/AI</li>
+                                <li>Граф цитирований</li>
+                                <li>Топ авторы по области</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-tags">
+                                <span class="topic-tag api">API</span>
+                                <span class="topic-tag nlp">NLP</span>
+                                <span class="difficulty-badge medium">Средне</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Topic 30: Avito -->
+                <div class="topic-card" data-category="ecommerce">
+                    <div class="topic-header">
+                        <div class="topic-category">📦 Объявления</div>
+                        <div class="topic-title">MarketLens: Доски объявлений</div>
+                        <div class="topic-subtitle">Avito, Юла, OLX</div>
+                    </div>
+                    <div class="topic-body">
+                        <div class="topic-section">
+                            <div class="topic-section-title">Источники данных</div>
+                            <ul class="topic-list">
+                                <li>Avito (парсинг, осторожно с лимитами)</li>
+                                <li>Юла (парсинг)</li>
+                                <li>Публичные датасеты объявлений</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">ML-задачи</div>
+                            <ul class="topic-list">
+                                <li>Оценка "справедливой" цены товара</li>
+                                <li>Детекция мошенничества</li>
+                                <li>Прогноз времени продажи</li>
+                                <li>NLP: категоризация по описанию</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-section-title">Фишки для UI</div>
+                            <ul class="topic-list">
+                                <li>Оценщик цены: "Сколько это стоит?"</li>
+                                <li>Алерты на выгодные предложения</li>
+                                <li>Динамика цен по категориям</li>
+                            </ul>
+                        </div>
+                        <div class="topic-section">
+                            <div class="topic-tags">
+                                <span class="topic-tag parsing">Парсинг</span>
+                                <span class="topic-tag nlp">NLP</span>
+                                <span class="difficulty-badge hard">Сложно</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- User Stories Section -->
+    <section id="stories">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">Требования</div>
+                <h2 class="section-title">User Stories</h2>
+                <p class="section-description">
+                    Что должен уметь ваш сервис с точки зрения пользователя
+                </p>
+            </div>
+
+            <div class="stories-grid">
+                
+                <div class="story-card">
+                    <div class="story-role">👤 Пользователь</div>
+                    <div class="story-text">
+                        Как пользователь, я хочу <strong>видеть актуальные данные</strong> по выбранному объекту, чтобы понимать текущую ситуацию.
+                    </div>
+                    <div class="story-acceptance">
+                        <div class="story-acceptance-title">Критерии приёмки</div>
+                        <ul>
+                            <li>Данные обновляются автоматически (минимум раз в день)</li>
+                            <li>Отображается время последнего обновления</li>
+                            <li>Есть KPI-карточки с ключевыми метриками</li>
+                            <li>Можно выбрать объект анализа (город, компанию, категорию)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="story-card">
+                    <div class="story-role">👤 Пользователь</div>
+                    <div class="story-text">
+                        Как пользователь, я хочу <strong>видеть историю и тренды</strong>, чтобы понимать динамику изменений.
+                    </div>
+                    <div class="story-acceptance">
+                        <div class="story-acceptance-title">Критерии приёмки</div>
+                        <ul>
+                            <li>Интерактивные графики временных рядов</li>
+                            <li>Возможность выбора периода (неделя, месяц, год)</li>
+                            <li>Визуализация сезонности и трендов</li>
+                            <li>Сравнение разных объектов на одном графике</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="story-card">
+                    <div class="story-role">👤 Пользователь</div>
+                    <div class="story-text">
+                        Как пользователь, я хочу <strong>получить прогноз</strong> от ML-модели, чтобы принимать решения.
+                    </div>
+                    <div class="story-acceptance">
+                        <div class="story-acceptance-title">Критерии приёмки</div>
+                        <ul>
+                            <li>Отображается предсказание модели</li>
+                            <li>Показаны метрики качества модели (MAE, RMSE, Accuracy)</li>
+                            <li>Визуализация прогноза vs фактических данных</li>
+                            <li>Можно ввести свои параметры и получить прогноз</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="story-card">
+                    <div class="story-role">👤 Пользователь</div>
+                    <div class="story-text">
+                        Как пользователь, я хочу <strong>фильтровать и искать данные</strong>, чтобы найти нужную информацию.
+                    </div>
+                    <div class="story-acceptance">
+                        <div class="story-acceptance-title">Критерии приёмки</div>
+                        <ul>
+                            <li>Сайдбар с фильтрами по основным параметрам</li>
+                            <li>Таблица с сырыми данными и пагинацией</li>
+                            <li>Возможность сортировки по колонкам</li>
+                            <li>Поиск по текстовым полям</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="story-card">
+                    <div class="story-role">👨‍💻 Разработчик</div>
+                    <div class="story-text">
+                        Как разработчик, я хочу <strong>использовать REST API</strong>, чтобы интегрировать данные в свои приложения.
+                    </div>
+                    <div class="story-acceptance">
+                        <div class="story-acceptance-title">Критерии приёмки</div>
+                        <ul>
+                            <li>Документация Swagger/OpenAPI доступна</li>
+                            <li>Эндпоинты: /health, /data, /predict</li>
+                            <li>Валидация входных данных (Pydantic)</li>
+                            <li>Корректные HTTP-коды ответов</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="story-card">
+                    <div class="story-role">🔧 Администратор</div>
+                    <div class="story-text">
+                        Как администратор, я хочу <strong>мониторить состояние системы</strong>, чтобы знать о проблемах.
+                    </div>
+                    <div class="story-acceptance">
+                        <div class="story-acceptance-title">Критерии приёмки</div>
+                        <ul>
+                            <li>Страница статуса источников данных</li>
+                            <li>Логи последних запусков сборщика</li>
+                            <li>Индикатор: источник работает / не работает</li>
+                            <li>Время последнего успешного сбора</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="story-card">
+                    <div class="story-role">🚀 DevOps</div>
+                    <div class="story-text">
+                        Как DevOps-инженер, я хочу <strong>развернуть проект одной командой</strong>, чтобы быстро поднимать окружение.
+                    </div>
+                    <div class="story-acceptance">
+                        <div class="story-acceptance-title">Критерии приёмки</div>
+                        <ul>
+                            <li>docker compose up --build запускает всё</li>
+                            <li>Все секреты в .env файле</li>
+                            <li>Healthcheck для каждого сервиса</li>
+                            <li>README с инструкцией по запуску</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="story-card">
+                    <div class="story-role">📊 Аналитик</div>
+                    <div class="story-text">
+                        Как аналитик данных, я хочу <strong>понимать логику модели</strong>, чтобы доверять прогнозам.
+                    </div>
+                    <div class="story-acceptance">
+                        <div class="story-acceptance-title">Критерии приёмки</div>
+                        <ul>
+                            <li>Отображение feature importance</li>
+                            <li>Описание использованных признаков</li>
+                            <li>Информация о версии модели</li>
+                            <li>(Бонус) SHAP-графики для объяснения</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section id="timeline" style="background: var(--bg-secondary);">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">Roadmap</div>
+                <h2 class="section-title">План семестра</h2>
+                <p class="section-description">
+                    Пошаговый план выполнения проекта по неделям
+                </p>
+            </div>
+
+            <div class="timeline">
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-week">Недели 1-2</div>
+                    <div class="timeline-title">🎯 Выбор темы и первые данные</div>
+                    <div class="timeline-content">
+                        <ul class="timeline-tasks">
+                            <li>Выбрать домен из списка или предложить свой</li>
+                            <li>Изучить доступные API и возможности парсинга</li>
+                            <li>Написать прототип сборщика данных</li>
+                            <li>Собрать первые 1000+ записей</li>
+                            <li>Создать репозиторий на GitHub</li>
+                        </ul>
+                        <div class="timeline-deliverable">
+                            📄 Jupyter notebook с первичными данными
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-week">Недели 3-4</div>
+                    <div class="timeline-title">💾 Data Engineering: Ingestor + БД</div>
+                    <div class="timeline-content">
+                        <ul class="timeline-tasks">
+                            <li>Спроектировать схему базы данных</li>
+                            <li>Настроить PostgreSQL в Docker</li>
+                            <li>Написать SQLAlchemy модели</li>
+                            <li>Реализовать сервис-сборщик (ingestor)</li>
+                            <li>Настроить планировщик (APScheduler)</li>
+                        </ul>
+                        <div class="timeline-deliverable">
+                            🐳 docker-compose с db + ingestor
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-week">Недели 5-6</div>
+                    <div class="timeline-title">🔬 EDA и Feature Engineering</div>
+                    <div class="timeline-content">
+                        <ul class="timeline-tasks">
+                            <li>Провести глубокий EDA в Jupyter</li>
+                            <li>Очистить данные, обработать пропуски</li>
+                            <li>Визуализировать распределения, корреляции</li>
+                            <li>Сформулировать гипотезы для ML</li>
+                            <li>Создать признаки (feature engineering)</li>
+                        </ul>
+                        <div class="timeline-deliverable">
+                            📊 Notebook с EDA + 3 гипотезы
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-week">Недели 7-8</div>
+                    <div class="timeline-title">🤖 Machine Learning</div>
+                    <div class="timeline-content">
+                        <ul class="timeline-tasks">
+                            <li>Реализовать baseline модель</li>
+                            <li>Настроить корректную валидацию (time series split)</li>
+                            <li>Улучшить модель (гиперпараметры, ансамбли)</li>
+                            <li>Сравнить с naive baseline</li>
+                            <li>Сохранить модель (joblib)</li>
+                        </ul>
+                        <div class="timeline-deliverable">
+                            🎯 Модель с MAE/RMSE лучше baseline
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-week">Недели 9-10</div>
+                    <div class="timeline-title">⚡ FastAPI Backend</div>
+                    <div class="timeline-content">
+                        <ul class="timeline-tasks">
+                            <li>Создать FastAPI приложение</li>
+                            <li>Реализовать эндпоинты: /health, /data, /predict</li>
+                            <li>Настроить Pydantic схемы</li>
+                            <li>Интегрировать модель для инференса</li>
+                            <li>Написать тесты (pytest)</li>
+                        </ul>
+                        <div class="timeline-deliverable">
+                            🌐 Работающий API со Swagger
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-week">Недели 11-12</div>
+                    <div class="timeline-title">📊 Streamlit Dashboard</div>
+                    <div class="timeline-content">
+                        <ul class="timeline-tasks">
+                            <li>Создать многостраничное приложение</li>
+                            <li>Страница Overview: KPI + основные графики</li>
+                            <li>Страница Predictions: прогнозы + метрики</li>
+                            <li>Страница Data: таблица + фильтры</li>
+                            <li>Страница Monitoring: статус источников</li>
+                        </ul>
+                        <div class="timeline-deliverable">
+                            🖥️ MVP дашборда с 4 страницами
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-week">Недели 13-14</div>
+                    <div class="timeline-title">🐳 Docker & Integration</div>
+                    <div class="timeline-content">
+                        <ul class="timeline-tasks">
+                            <li>Dockerfile для каждого сервиса</li>
+                            <li>Финальный docker-compose.yml</li>
+                            <li>Настроить healthchecks</li>
+                            <li>Проверить воспроизводимость на чистой машине</li>
+                            <li>Оптимизировать размер образов</li>
+                        </ul>
+                        <div class="timeline-deliverable">
+                            🚀 docker compose up запускает всё
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-week">Недели 15-16</div>
+                    <div class="timeline-title">✨ Финализация и защита</div>
+                    <div class="timeline-content">
+                        <ul class="timeline-tasks">
+                            <li>Написать README с инструкциями</li>
+                            <li>Добавить скриншоты в документацию</li>
+                            <li>Code review и рефакторинг</li>
+                            <li>Подготовить демо-сценарий</li>
+                            <li>Презентация проекта</li>
+                        </ul>
+                        <div class="timeline-deliverable">
+                            🎓 Готовый проект + презентация
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Criteria Section -->
+    <section id="criteria">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">Оценивание</div>
+                <h2 class="section-title">Критерии оценки</h2>
+                <p class="section-description">
+                    Что нужно сделать на минимальную оценку и как получить максимум
+                </p>
+            </div>
+
+            <div class="criteria-grid">
+                
+                <div class="criteria-card">
+                    <div class="criteria-header">
+                        <div class="criteria-grade">4</div>
+                        <div class="criteria-label">Хорошо — Обязательный минимум</div>
+                    </div>
+                    <ul class="criteria-list">
+                        <li>
+                            <span class="criteria-check">✓</span>
+                            <span><strong>Воспроизводимость:</strong> docker compose up --build запускает проект</span>
+                        </li>
+                        <li>
+                            <span class="criteria-check">✓</span>
+                            <span><strong>Данные:</strong> ≥2 источника, ≥1000 записей, обработка пропусков</span>
+                        </li>
+                        <li>
+                            <span class="criteria-check">✓</span>
+                            <span><strong>EDA:</strong> Jupyter notebook с визуализациями и выводами</span>
+                        </li>
+                        <li>
+                            <span class="criteria-check">✓</span>
+                            <span><strong>ML:</strong> Baseline модель + корректная валидация + метрики лучше naive</span>
+                        </li>
+                        <li>
+                            <span class="criteria-check">✓</span>
+                            <span><strong>API:</strong> FastAPI с /predict, Swagger работает</span>
+                        </li>
+                        <li>
+                            <span class="criteria-check">✓</span>
+                            <span><strong>UI:</strong> Streamlit с ≥3 страницами</span>
+                        </li>
+                        <li>
+                            <span class="criteria-check">✓</span>
+                            <span><strong>Документация:</strong> README с инструкцией по запуску</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="criteria-card">
+                    <div class="criteria-header advanced">
+                        <div class="criteria-grade">5</div>
+                        <div class="criteria-label">Отлично — Продвинутый уровень</div>
+                    </div>
+                    <ul class="criteria-list">
+                        <li>
+                            <span class="criteria-check">✓</span>
+                            <span><strong>Всё из "4" плюс:</strong></span>
+                        </li>
+                        <li>
+                            <span class="criteria-check">✓</span>
+                            <span><strong>ML Ops:</strong> MLflow для трекинга экспериментов</span>
+                        </li>
+                        <li>
+                            <span class="criteria-check">✓</span>
+                            <span><strong>Интерпретация:</strong> SHAP / feature importance в UI</span>
+                        </li>
+                        <li>
+                            <span class="criteria-check">✓</span>
+                            <span><strong>Мониторинг:</strong> Страница статуса источников + логи</span>
+                        </li>
+                        <li>
+                            <span class="criteria-check">✓</span>
+                            <span><strong>Тесты:</strong> pytest, покрытие ≥50%</span>
+                        </li>
+                        <li>
+                            <span class="criteria-check">✓</span>
+                            <span><strong>CI/CD:</strong> GitHub Actions (линт + тесты)</span>
+                        </li>
+                        <li>
+                            <span class="criteria-check">✓</span>
+                            <span><strong>Миграции:</strong> Alembic для управления схемой БД</span>
+                        </li>
+                        <li>
+                            <span class="criteria-check">✓</span>
+                            <span><strong>Кэш:</strong> Redis для оптимизации запросов</span>
+                        </li>
+                        <li>
+                            <span class="criteria-check">✓</span>
+                            <span><strong>Качество кода:</strong> ruff, pre-commit, типизация</span>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="highlight-box" style="margin-top: 48px;">
+                <h4>💡 Бонусные баллы</h4>
+                <p>Дополнительные баллы можно получить за:</p>
+                <ul style="margin-top: 12px; padding-left: 20px; color: var(--text-secondary);">
+                    <li>Оригинальную тему проекта (не из списка)</li>
+                    <li>Сложные ML-модели (NLP, временные ряды, deep learning)</li>
+                    <li>Деплой на внешний сервер (Railway, Render, VPS)</li>
+                    <li>Интеграция с Telegram-ботом для алертов</li>
+                    <li>Real-time обновления (WebSocket)</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" style="background: var(--bg-secondary);">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">FAQ</div>
+                <h2 class="section-title">Частые вопросы</h2>
+            </div>
+
+            <div style="max-width: 800px; margin: 0 auto;">
+                
+                <div class="accordion">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span class="accordion-title">
+                            <span>🤔</span>
+                            Можно ли работать в команде?
+                        </span>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            Да, можно работать в командах до 2-3 человек. В этом случае объём работы должен быть пропорционально больше: больше источников данных, больше ML-моделей, более сложный UI. Каждый участник должен чётко понимать свою часть проекта и уметь её объяснить на защите.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span class="accordion-title">
+                            <span>💡</span>
+                            Можно ли взять свою тему?
+                        </span>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            Да! Свою тему нужно согласовать с преподавателем. Главное условие: должны быть доступные источники данных (API или возможность парсинга) и осмысленная ML-задача. За оригинальную тему можно получить бонусные баллы.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span class="accordion-title">
+                            <span>⚠️</span>
+                            Что делать, если сайт блокирует парсинг?
+                        </span>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <p>Несколько вариантов:</p>
+                            <ul style="margin-top: 12px; padding-left: 20px;">
+                                <li>Использовать официальный API (если есть)</li>
+                                <li>Добавить задержки между запросами (time.sleep)</li>
+                                <li>Использовать ротацию User-Agent</li>
+                                <li>Переключиться на альтернативный источник</li>
+                                <li>Использовать готовые датасеты с Kaggle как backup</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span class="accordion-title">
+                            <span>🐳</span>
+                            Нужно ли деплоить проект в облако?
+                        </span>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            Нет, это не обязательно. Достаточно, чтобы проект запускался локально через Docker. Деплой на внешний сервер (Railway, Render, VPS) — это бонус для дополнительных баллов.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span class="accordion-title">
+                            <span>📊</span>
+                            Какую ML-модель использовать?
+                        </span>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            <p>Начните с простых моделей:</p>
+                            <ul style="margin-top: 12px; padding-left: 20px;">
+                                <li><strong>Регрессия:</strong> LinearRegression → Ridge → RandomForest → CatBoost</li>
+                                <li><strong>Классификация:</strong> LogisticRegression → RandomForest → CatBoost</li>
+                                <li><strong>Временные ряды:</strong> Naive baseline → ARIMA → Prophet</li>
+                                <li><strong>NLP:</strong> TF-IDF + LogReg → TextBlob → transformers</li>
+                            </ul>
+                            <p style="margin-top: 12px;">Главное — корректная валидация и сравнение с baseline!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span class="accordion-title">
+                            <span>📅</span>
+                            Что если не успеваю к дедлайну?
+                        </span>
+                        <span class="accordion-icon">▼</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-body">
+                            Лучше сдать MVP (работающий минимум), чем ничего. Приоритеты:
+                            <ol style="margin-top: 12px; padding-left: 20px;">
+                                <li>Данные собираются и сохраняются в БД</li>
+                                <li>Есть хоть какая-то ML модель</li>
+                                <li>Streamlit показывает данные</li>
+                                <li>Docker запускается</li>
+                            </ol>
+                            <p style="margin-top: 12px;">Красивый UI и продвинутые фичи можно добавить позже.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Resources Section -->
+    <section id="resources">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">Материалы</div>
+                <h2 class="section-title">Полезные ресурсы</h2>
+            </div>
+
+            <div class="grid-3">
+                <div class="card">
+                    <div class="card-icon">📚</div>
+                    <div class="card-title">Документация</div>
+                    <div class="card-description">
+                        <ul style="list-style: none; margin-top: 12px;">
+                            <li style="padding: 6px 0;"><a href="https://fastapi.tiangolo.com/" target="_blank" style="color: var(--accent-primary);">FastAPI Docs</a></li>
+                            <li style="padding: 6px 0;"><a href="https://docs.streamlit.io/" target="_blank" style="color: var(--accent-primary);">Streamlit Docs</a></li>
+                            <li style="padding: 6px 0;"><a href="https://docs.sqlalchemy.org/" target="_blank" style="color: var(--accent-primary);">SQLAlchemy Docs</a></li>
+                            <li style="padding: 6px 0;"><a href="https://docs.docker.com/compose/" target="_blank" style="color: var(--accent-primary);">Docker Compose Docs</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">🎓</div>
+                    <div class="card-title">Туториалы</div>
+                    <div class="card-description">
+                        <ul style="list-style: none; margin-top: 12px;">
+                            <li style="padding: 6px 0;"><a href="https://realpython.com/fastapi-python-web-apis/" target="_blank" style="color: var(--accent-primary);">Real Python: FastAPI</a></li>
+                            <li style="padding: 6px 0;"><a href="https://testdriven.io/blog/fastapi-streamlit/" target="_blank" style="color: var(--accent-primary);">FastAPI + Streamlit</a></li>
+                            <li style="padding: 6px 0;"><a href="https://mlflow.org/docs/latest/tutorials-and-examples/tutorial.html" target="_blank" style="color: var(--accent-primary);">MLflow Tutorial</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">🔗</div>
+                    <div class="card-title">Публичные API</div>
+                    <div class="card-description">
+                        <ul style="list-style: none; margin-top: 12px;">
+                            <li style="padding: 6px 0;"><a href="https://github.com/public-apis/public-apis" target="_blank" style="color: var(--accent-primary);">Public APIs List</a></li>
+                            <li style="padding: 6px 0;"><a href="https://api.hh.ru/" target="_blank" style="color: var(--accent-primary);">HH.ru API</a></li>
+                            <li style="padding: 6px 0;"><a href="https://open-meteo.com/" target="_blank" style="color: var(--accent-primary);">Open-Meteo API</a></li>
+                            <li style="padding: 6px 0;"><a href="https://www.coingecko.com/en/api" target="_blank" style="color: var(--accent-primary);">CoinGecko API</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p class="footer-text">
+                📚 DataPulse — Семестровый проект 2026<br>
+                <span style="opacity: 0.7;">Курс: Python & Data Science | ML & EDA</span>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Filter topics
+        function filterTopics(category) {
+            const cards = document.querySelectorAll('.topic-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        // Accordion toggle
+        function toggleAccordion(header) {
+            const accordion = header.parentElement;
+            accordion.classList.toggle('active');
+        }
+
+        // Smooth scroll for nav links
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        // Fade in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Add fade-in class to elements
+        document.querySelectorAll('.card, .topic-card, .story-card, .timeline-item').forEach(el => {
+            el.classList.add('fade-in');
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
